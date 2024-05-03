@@ -1,0 +1,66 @@
+---
+title: "R_Exercise"
+author: "Sophie Herstein"
+date: "2024-04-17"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# install and load ggplot2
+```{r}
+library(ggplot2)
+```
+# load iris dataset
+```{r}
+data("iris")
+```
+# scatter plot
+```{r}
+scatter_plot <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
+color = Species)) + geom_point() + labs(x = "Sepal Length", y = "Sepal
+Width", title = "Scatter Plot of Sepal Length vs Sepal Width")
+scatter_plot
+```
+# regression line
+```{r}
+scatter_plot_with_reg <- scatter_plot + geom_smooth(aes(group=1),method = "lm", se=FALSE, color="black")
+scatter_plot_with_reg
+```
+# Pearson correlation
+```{r}
+correlation <- cor(iris$Sepal.Length, iris$Sepal.Width, method="pearson")
+correlation
+```
+# boxplot
+```{r}
+boxplot <- ggplot(iris, aes(x = Species, y = Petal.Width, fill =
+Species)) + geom_boxplot() + labs(x = "Species", y = "Petal Width",
+title = "Boxplot of Petal Width by Species")
+boxplot
+```
+# histogram
+
+```{r}
+histogram <- ggplot(iris, aes(x = Petal.Width, fill = Species)) +
+geom_histogram(bins = 20, alpha = 0.7, position = "identity") + labs(x =
+"Petal Width", title = "Histogram of Petal Width by
+Species")
+histogram
+```
+# t-test for petalwidth between the 2 species
+
+```{r}
+t_test_result <- t.test(iris$Petal.Width[iris$Species == "setosa"],
+iris$Petal.Width[iris$Species == "virginica"])
+```
+# conclusion of t-test
+```{r}
+if (t_test_result$p.value < 0.05) { cat("The width is a statistically significant difference between the 2 species") } else {
+cat("The width is not a statistically significant difference between the 2 species.") }
+```
